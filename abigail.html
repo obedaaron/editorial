@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Abigail | ASE Editorial</title>
+    <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@1,6..96,400;1,6..96,900&family=Syncopate:wght@400;700&family=Montserrat:wght@100;300;400&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #0d0d0d;
+            --accent: #c5a47e;
+            --text: #ffffff;
+            --dim: #444;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            background: var(--bg);
+            color: var(--text);
+            font-family: 'Montserrat', sans-serif;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+            width: 100%;
+        }
+
+        .grain {
+            position: fixed; inset: 0;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.05'/%3E%3C/svg%3E");
+            pointer-events: none; z-index: 10;
+        }
+
+        .back-home {
+            position: fixed;
+            top: 2rem;
+            left: 2rem;
+            z-index: 100;
+            text-decoration: none;
+            color: var(--text);
+            font-size: 0.6rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transition: 0.4s ease;
+            opacity: 0.7;
+        }
+        .back-home:hover { opacity: 1; color: var(--accent); letter-spacing: 0.2em; }
+
+        .sync { font-family: 'Syncopate', sans-serif; text-transform: uppercase; letter-spacing: 0.5em; }
+        .bodoni { font-family: 'Bodoni Moda', serif; font-style: italic; }
+
+        section {
+            min-height: 100vh;
+            padding: 10vh 8vw;
+            display: flex;
+            position: relative;
+            width: 100%;
+        }
+
+        .hero { justify-content: space-between; align-items: flex-end; flex-wrap: wrap; }
+
+        .vertical-name {
+            position: absolute;
+            left: 1vw;
+            top: 5vh;
+            writing-mode: vertical-rl;
+            font-size: clamp(4rem, 12vw, 12rem);
+            line-height: 0.8;
+            color: transparent;
+            -webkit-text-stroke: 1px var(--dim);
+            font-weight: 900;
+            pointer-events: none;
+        }
+
+        .hero-content {
+            margin-left: clamp(10vw, 15vw, 20vw);
+            max-width: 600px;
+            z-index: 5;
+        }
+
+        .hero-content h2 {
+            font-size: 0.7rem;
+            margin-bottom: 2rem;
+            color: var(--accent);
+        }
+
+        .main-headline {
+            font-size: clamp(2.2rem, 5vw, 4.5rem);
+            line-height: 1.1;
+            font-weight: 100;
+        }
+
+        .editorial-img {
+            width: 100%; height: 100%;
+            object-fit: cover;
+            filter: grayscale(1) brightness(0.6) contrast(1.1);
+            transition: 1.5s cubic-bezier(0.19, 1, 0.22, 1);
+        }
+
+        .img-wrapper:hover .editorial-img {
+            filter: grayscale(0) brightness(0.8);
+            transform: scale(1.05);
+        }
+
+        .img-wrapper {
+            overflow: hidden;
+            background: #000;
+            position: relative;
+            max-width: 100%;
+        }
+
+        .spread-v2 { align-items: center; justify-content: center; }
+
+        .overlapping-box {
+            position: relative;
+            z-index: 2;
+            width: 400px;
+            max-width: 70vw;
+            height: 500px;
+            margin-right: 150px; /* Space added here for PC */
+        }
+
+        .floating-text {
+            position: absolute;
+            left: 55%;
+            top: 50%;
+            transform: translateY(-50%);
+            width: clamp(280px, 30vw, 400px);
+            z-index: 3;
+            font-size: clamp(1.5rem, 2.5vw, 2.2rem);
+            line-height: 1.2;
+            pointer-events: none;
+        }
+
+        .dedication {
+            background: #050505;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .letter-wrap {
+            max-width: 1000px;
+            margin: 0 auto;
+            border-left: 1px solid var(--dim);
+            padding-left: clamp(1.5rem, 4rem, 5rem);
+        }
+
+        .letter-wrap h3 {
+            font-size: 0.8rem;
+            margin-bottom: 3rem;
+            color: var(--accent);
+        }
+
+        .manifesto-v2 {
+            font-family: 'Bodoni Moda', serif;
+            font-size: clamp(1.2rem, 2.5vw, 2.2rem);
+            line-height: 1.5;
+            font-weight: 300;
+        }
+
+        .manifesto-v2 span {
+            color: var(--text);
+            font-weight: 400;
+            transition: color 0.6s;
+        }
+
+        .scroll-reveal {
+            opacity: 0;
+            transform: translateX(-20px);
+            transition: all 1.5s ease;
+        }
+
+        .scroll-reveal.active {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        footer {
+            padding: 3rem 8vw;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-top: 1px solid var(--dim);
+            font-size: 0.6rem;
+            color: var(--dim);
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        /* MOBILE OPTIMIZATIONS */
+        @media (max-width: 768px) {
+            .back-home { top: 1.5rem; left: 1.5rem; }
+            .vertical-name { display: none; }
+            
+            section { padding: 8vh 6vw; min-height: auto; }
+            
+            .hero { flex-direction: column; align-items: flex-start; justify-content: flex-start; padding-top: 15vh; }
+            .hero-content { margin-left: 0; margin-bottom: 3rem; }
+            
+            .hero .img-wrapper { 
+                width: 100% !important; 
+                height: 400px !important; 
+                margin-bottom: 0; 
+            }
+
+            .spread-v2 { padding: 5vh 6vw; }
+            .spread-v2 > div { flex-direction: column !important; }
+            .overlapping-box { 
+                width: 100%; 
+                max-width: 100%; 
+                height: 400px; 
+                margin-right: 0;
+            }
+            .floating-text { 
+                position: relative; 
+                left: 0; 
+                top: 0; 
+                transform: none; 
+                width: 100%; 
+                margin-top: 1.5rem;
+                padding-bottom: 2rem;
+            }
+
+            .dedication { padding: 10vh 6vw; }
+            .letter-wrap { padding-left: 1.2rem; }
+            
+            footer { 
+                flex-direction: column; 
+                text-align: center; 
+                gap: 1.5rem; 
+                padding: 4rem 6vw;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="grain"></div>
+
+<a href="index.html" class="back-home sync">
+    <span>←</span> Back to Archive
+</a>
+
+<section class="hero">
+    <h1 class="vertical-name sync">ABIGAIL</h1>
+    <div class="hero-content">
+        <h2 class="sync">ASE Abuja Series / 2026</h2>
+        <p class="main-headline bodoni">
+            "Intellect is the highest form of <span style="font-weight:900">elegance</span>."
+        </p>
+    </div>
+    <div class="img-wrapper" style="width: 200px; height: 280px; margin-bottom: 5vh;">
+        <img src="abigail.jpg" class="editorial-img" alt="Abigail Portrait">
+    </div>
+</section>
+
+<section class="spread-v2">
+    <div style="position: relative; display: flex; flex-direction: row; align-items: center; width: 100%; max-width: 900px;">
+        <div class="img-wrapper overlapping-box scroll-reveal">
+            <img src="abigail-2.jpg" class="editorial-img" alt="Abigail Editorial">
+        </div>
+        <div class="floating-text bodoni scroll-reveal">
+            Finding the <span class="sync" style="font-size: 0.8rem; letter-spacing: 0.2rem; display: block; margin: 1rem 0;">Symmetry</span> 
+            between quiet focus and brilliant ambition.
+        </div>
+    </div>
+</section>
+
+<section class="dedication">
+    <div class="letter-wrap scroll-reveal">
+        <h3 class="sync">Editorial Profile</h3>
+        <p class="manifesto-v2">
+            To lead is to be seen. To witness the precision in her perspective, the way her <span>presence defines a room</span>, and the poise she brings to the academic landscape of Abuja. 
+            <br><br>
+            In a world of fleeting trends, Abigail represents the <span>enduring classic</span>. Grounded. Sophisticated. A vision of the African School of Economics.
+        </p>
+        <p class="bodoni" style="margin-top: 4rem; font-size: 1.2rem; letter-spacing: 0.1rem; color: var(--accent);">CURATED BY ASE ARCHIVE</p>
+    </div>
+</section>
+
+<footer>
+    <div class="sync">VOL. 01 / ISSUE 02</div>
+    <div class="sync" style="color: var(--text)">Abigail</div>
+    <div class="sync">ASE ABUJA EDITORIAL</div>
+</footer>
+
+<script>
+    const triggers = document.querySelectorAll('.scroll-reveal');
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) entry.target.classList.add('active');
+        });
+    }, { threshold: 0.1 });
+
+    triggers.forEach(t => observer.observe(t));
+</script>
+
+</body>
+</html>
